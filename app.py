@@ -13,20 +13,29 @@ import time
 from datetime import datetime
 import speech_recognition as sr
 
-# Load environment variables
-try:
-    load_dotenv()
-    groq_api_key = os.getenv('GROQ_API_KEY')
-    google_api_key = os.getenv("GOOGLE_API_KEY")
-    
-    if not groq_api_key or not google_api_key:
-        st.error("Missing API keys in environment variables")
-        st.stop()
-    
-    os.environ["GOOGLE_API_KEY"] = google_api_key
-except Exception as e:
-    st.error(f"Failed to load environment variables: {str(e)}")
+# Load environment variables - try direct env vars first (for Streamlit Cloud)
+groq_api_key = os.getenv('GROQ_API_KEY')
+google_api_key = os.getenv('GOOGLE_API_KEY')
+
+# If not found, try loading from .env file (for local development)
+if not groq_api_key or not google_api_key:
+    try:
+        load_dotenv()
+        groq_api_key = os.getenv('GROQ_API_KEY')
+        google_api_key = os.getenv('GOOGLE_API_KEY')
+    except Exception as e:
+        st.error(f"Failed to load .env file: {str(e)}")
+
+# Final validation
+if not groq_api_key or not google_api_key:
+    st.error("""
+        Missing required API keys. Please ensure:
+        1. For local development: Create a .env file with GROQ_API_KEY and GOOGLE_API_KEY
+        2. For Streamlit Cloud: Set environment variables in deployment settings
+    """)
     st.stop()
+
+os.environ["GOOGLE_API_KEY"] = google_api_key
 
 def initialize_page():
     st.set_page_config(
