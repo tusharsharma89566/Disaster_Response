@@ -14,9 +14,19 @@ from datetime import datetime
 import speech_recognition as sr
 
 # Load environment variables
-load_dotenv()
-groq_api_key = os.getenv('GROQ_API_KEY')
-os.environ["GOOGLE_API_KEY"] = os.getenv("GOOGLE_API_KEY")
+try:
+    load_dotenv()
+    groq_api_key = os.getenv('GROQ_API_KEY')
+    google_api_key = os.getenv("GOOGLE_API_KEY")
+    
+    if not groq_api_key or not google_api_key:
+        st.error("Missing API keys in environment variables")
+        st.stop()
+    
+    os.environ["GOOGLE_API_KEY"] = google_api_key
+except Exception as e:
+    st.error(f"Failed to load environment variables: {str(e)}")
+    st.stop()
 
 def initialize_page():
     st.set_page_config(
