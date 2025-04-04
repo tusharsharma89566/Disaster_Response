@@ -20,8 +20,8 @@ os.environ["GOOGLE_API_KEY"] = os.getenv("GOOGLE_API_KEY")
 
 def initialize_page():
     st.set_page_config(
-        page_title="Military Protocol Assistant",
-        page_icon="🎖️",
+        page_title="Disaster Response System",
+        page_icon="🚨",
         layout="wide",
         initial_sidebar_state="collapsed"
     )
@@ -224,32 +224,32 @@ def convert_speech_to_text():
 
 def initialize_prompt():
     return ChatPromptTemplate.from_template("""
-    You are a **Military Emergency Protocol Assistant**, responsible for providing **strictly accurate** guidance based on **official military protocol documents**.  
+    You are a **Disaster Response System**, responsible for providing **accurate and actionable** guidance based on **official disaster response protocols**.  
 
-    **STRICT RESPONSE GUIDELINES:**  
-    1. **Use ONLY the official protocol documents** to generate responses. No external assumptions, opinions, or alternative advice are allowed.  
-    2. **Directly extract and present** the full, actionable steps from the provided protocols. **DO NOT** tell the user to check the procedures themselves—give them the exact details.  
-    3. **Reject unnecessary, vague, or unrelated queries** by responding with:  
+    **RESPONSE GUIDELINES:**  
+    1. **Use ONLY official disaster response documents** to generate responses. No external assumptions or opinions.  
+    2. **Provide clear, actionable steps** from the protocols. Never tell users to "check the procedures themselves."  
+    3. **For unrelated queries**, respond with:  
        ```
-       "Information Not available in the database"
-       ```
-    4. **If the query is relevant to emergency proceduresbu t NOT found in the protocol documents, respond with:**  
-       ```
-       "This information is not available in the official protocols. In such cases, follow standard emergency procedures:  
-       - Stay calm and assess the situation.  
-       - Ensure the safety of yourself and your unit.  
-       - Follow general emergency protocols as trained.  
-       - Seek immediate guidance from your commanding officer or emergency response teams."
-       ```
-    5. **Prioritize clarity, urgency, and step-by-step execution** for emergency situations. Responses must be **fully detailed**, with no missing steps.  
-    6. **Structure the response as follows (ONLY if the data is in the protocol):**  
+       "This information is not available in the disaster response database"
+       ```  
+    4. **If the query is relevant but not found in protocols**, respond with:  
+       ```  
+       "This specific scenario isn't covered in our protocols. Follow general disaster response guidelines:  
+       - Ensure personal safety first  
+       - Call emergency services if needed  
+       - Follow evacuation routes if available  
+       - Help others if it's safe to do so  
+       - Listen to official announcements"  
+       ```  
+    5. **Prioritize clear, step-by-step instructions** for emergency situations.  
 
     **Response Format:**  
-    - **Immediate Actions (if applicable) → Critical steps that must be taken immediately.**  
-    - **Step-by-step procedure → Fully detailed steps extracted from the protocols.**  
-    - **Protocol Reference → Section, page, or source from which the information was retrieved.**  
+    - **Immediate Actions → Critical first steps**  
+    - **Detailed Procedure → Step-by-step guidance**  
+    - **Source Reference → Official protocol source**  
 
-    **Official Protocol Data:**  
+    **Disaster Response Data:**  
     {context}  
 
     **Query:** {input}  
@@ -296,13 +296,13 @@ def main():
     with left_col:
         st.markdown("### Quick Access Protocols")
         protocols = {
-            "📡 Communications": "What to do during communications equipment failure?",
-            "🔥 Fire Emergency": "How to respond to a fire outbreak in the field?",
-            "💥 Explosive Threat": "What are the immediate steps when encountering an explosive or bomb threat?",
-            "🌡️ Heat Exhaustion & Dehydration": "What are the signs and first aid measures for heat exhaustion?",
-            "⚠️ Biological or Chemical Attack": "How to respond in case of a suspected biological or chemical attack?",
-            "❄️ Hypothermia & Cold Injuries": "How to prevent and treat hypothermia in extreme cold conditions?",
-            "📍 Navigation": "What are the survival steps if lost in an unfamiliar environment?"
+            "🌪️ Tornado": "What to do during a tornado warning?",
+            "🔥 Wildfire": "How to prepare for and respond to wildfires?",
+            "🏠 Earthquake": "What are the safety steps during an earthquake?",
+            "💨 Hurricane": "How to prepare for a hurricane?",
+            "🚰 Flood": "What to do when flood waters are rising?",
+            "⚡ Power Outage": "How to stay safe during extended power outages?",
+            "🏥 First Aid": "Basic first aid procedures for common injuries"
         }
         
         for label, query in protocols.items():
@@ -312,8 +312,8 @@ def main():
     
     # Middle Column - Chat Interface
     with middle_col:
-        st.title("Echo-9 Protocol Assistant")
-        st.markdown("##### Military Emergency Response System")
+        st.title("Disaster Response Assistant")
+        st.markdown("##### Emergency Management System")
         
         # Status Bar
         status_col1, status_col2, status_col3 = st.columns(3)
